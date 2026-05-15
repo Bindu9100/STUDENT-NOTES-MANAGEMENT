@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .box {
+            width: 400px;
+            padding: 10px 50px 30px 50px;
+            border: 1px solid rgb(155, 152, 152);
+            background-color: rgb(207, 220, 226);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+
+        }
+
+        button {
+            background-color: rgb(235, 131, 131);
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+        }
+
+        .abc {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <center>
+            <h1>Welcome To SNM Project</h1>
+            <a href="{{url_for('register')}}"><button class="abc">Register</button></a><br>
+            <a href="{{url_for('login')}}"><button>Login</button></a>
+        </center>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .box1 {
+            width: 350px;
+            padding: 20px;
+            border: 1px solid rgb(155, 152, 152);
+            background-color: rgb(207, 220, 226);
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        input {
+            width: 90%;
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: rgb(100, 225, 100);
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            padding: 8px 15px;
+            margin-top: 10px;
+
+        }
+         .abc{
+            display: flex;
+            justify-content: space-around;
+            
+        }
+        
+    </style>
+
+</head>
+
+<body>
+    <div class="box1">
+        <h1>login</h1>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        {{ message }}
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <form method="post">
+            <!-- <input type="text" name="name" placeholder="Enter Username" required><br> -->
+            <input type="email" name="email" placeholder="Enter email" required><br>
+            <input type="password" name="password" placeholder="Enter password" required><br>
+            <!-- <a href="{{'register'}}"><button>Submit</button></a> -->
+            <div class="abc">
+                <a href="{{url_for('forgotpassword')}}">forgot password</a>
+                <button>Submit</button>
+            </div>
+        </form>
+
+    </div>
+    <!-- <div>
+        <a href="#">forgot password</a>
+    </div> -->
+</body>
+
+</html>
