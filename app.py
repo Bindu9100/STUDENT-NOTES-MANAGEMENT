@@ -1,4 +1,4 @@
-from flask import Flask,request,redirect,url_for,render_template,flash,session,send_file
+from flask import Flask,request,redirect,url_for,render_template,flash,session,send_file,jsonify
 from flask_session import Session
 from otp import genotp
 from cmail import sendmail
@@ -400,7 +400,7 @@ def forgotpassword():
         else:
             if email_count[0]==1:
                 subject=f'Reset link for SNM forgotpassword'
-                body=f"Use the given link for new password update{url_for('newpassword',useremail=endata(user_email),_external=True)}"
+                body=f"Use the given link for new password update{url_for('newpassword',userdata=endata(user_email),_external=True)}"
                 sendmail(to=user_email,subject=subject,body=body)
                 flash('Reset link has been sent to given email')
                 return redirect(url_for('forgotpassword'))
@@ -408,27 +408,29 @@ def forgotpassword():
                 flash('Email not registered pls check')
                 return redirect(url_for('login'))
     return render_template('forgot.html')
-@app.route('/newpassword/<useremail>',methods=['GET','PUT'])
-def newpassword(useremail):
-    try:
-        forgot_email=dndata(useremail)
-    except Exception as e:
-        flash('Could not verify the email')
-        return redirect(url_for('newpassword',useremail=useremail))
-    else:
-        if request.method=='PUT'
-            new_password=request.get_json()['password']
-            try:
-                cursor=mydb.cursor(buffered=True)
-                cursor.execute('update userdata set userpassword=%s where useremail=%s',[new_password,forgot_email])
-                mydb.commit()
-                cursor.clone()
-            except Exception as e:
-                print(e)
-                flash('Could not update password')
-                return redirect(url_for('newpassword',useremail=useremail))
-            else:
-                flash('password updated successfully')
-                return jsonify({"message":"passwword updated successfully"})
-        return render_template('newpassword.html')
+@app.route('/newpassword/<userdata>',methods=['GET','PUT'])
+def newpassword(userdata):
+    if request.method=='PUT':
+        try:
+            forgot_email=dndata(userdata)
+            print(forgot_email)
+        except Exception as e:
+            print(e)
+            flash('Could not verify the email')
+            return redirect(url_for('newpassword',userdata=userdata))
+        print(request.get_json())
+        npassword=request.get_json()['password']
+        try:
+            cursor=mydb.cursor(buffered=True)
+            cursor.execute('update userdata set userpassword=%s where useremail=%s',[npassword,forgot_email])
+            mydb.commit()
+            cursor.close()
+        except Exception as e:
+            print(e)
+            flash('could not update password')
+            return redirect(url_for('newpassword',userdata=userdata))
+        else:
+            flash('password updated successfully')
+            return jsonify({"message":"password updated successfully"})
+    return render_template('newpassword.html',userdata=userdata)
 app.run(use_reloader=True,debug=True)
